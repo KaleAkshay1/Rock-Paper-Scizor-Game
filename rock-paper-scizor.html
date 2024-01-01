@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .image{
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            border: 2px white solid;
+        }
+        .image:hover{
+            border: 2px black solid;
+            cursor: pointer;
+        }
+        #heading1{
+            background-color: rgb(0, 0, 67);
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .sec{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin: 30px;
+        }
+        .m-top{
+            margin-top: 50px;
+        }
+        .score{
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        #massage{
+            font-size: 30px;
+            text-align: center;
+            padding: 15px;
+            width: 400px;
+            border-radius: 20px;
+            color: white;
+        }
+        .msg1{
+            background-color: black;
+        }
+        .msg2{
+            background-color: green;
+        }
+        .msg3{
+            background-color: red;
+        }
+        #comp-score , #user-score{
+            font-size: 50px;
+        }
+        #resetBtn{
+            background-color: blue;
+            width: 200px;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="heading1">Stone, Paper and Scissor Game</h1>
+    </header>
+    <main>
+        <section class="sec m-top user-choise">
+            <img id="paper" class="image" src="https://i.postimg.cc/rmhF95GT/paper.png" alt="">
+            <img id="stone" class="image" src="https://i.postimg.cc/bwHPTQ85/rock.png" alt="">
+            <img id="scissor" class="image" src="https://i.postimg.cc/SR64v8Cj/scissors.png" alt="">
+        </section>
+        <section class="sec">
+            <div class="score">
+                <p id="user-score">0</p>
+                <p>you</p>
+            </div>
+            <div class="score">
+                <p id="comp-score">0</p>
+                <p>comp</p>
+            </div>
+        </section>
+        <section class="message sec">
+                <p id="massage" class="msg1">play your move</p>
+        </section>
+        <section class="sec">
+            <button id="resetBtn">Reset</button>
+        </section>
+    </main>
+
+    <script>
+        let compScore=0
+        let userScore=0
+        const images=document.querySelectorAll('.image')
+        const massage=document.getElementById('massage')
+        const user_score = document.getElementById('user-score')
+        const comp_score = document.getElementById('comp-score')
+        const rBtn=document.getElementById('resetBtn')
+
+        rBtn.onclick = () => {
+            compScore = 0
+            userScore = 0
+            user_score.innerText = userScore
+            comp_score.innerText = compScore
+            massage.innerText = 'play your move'
+            massage.className = 'msg1'
+        }
+
+        const compChoice= () => {
+            const choise=['stone','paper','scissor']
+            let ind = Math.floor(Math.random() * 3);
+            return choise[ind]
+        }
+
+        const playGame = (userChoice) => {
+            const cChoise=compChoice()
+            if(userChoice === cChoise){
+                massage.innerText= `computer choise is ${cChoise} Draw`
+                massage.className= 'msg1'
+                //massage.innerText = `computer choise is ${cChoise} you Lose`
+            }else if(userChoice === 'stone' && cChoise==='paper' || userChoice === 'paper' && cChoise==='scissor' || userChoice === 'scissor' && cChoise==='stone'){
+                massage.innerText = `computer choise is ${cChoise} you Lose`
+                compScore++
+                comp_score.innerText = compScore
+                massage.className = 'msg3'
+            }else{
+                massage.innerText = `computer choise is ${cChoise} you Won`
+                userScore++
+                user_score.innerText = userScore
+                massage.className = 'msg2'
+            }
+        }
+
+        images.forEach((image) => {
+            image.addEventListener('click',() => {
+                const userChoice=image.getAttribute('id')
+                playGame(userChoice)
+            })
+        })        
+    </script>
+</body>
+</html>
